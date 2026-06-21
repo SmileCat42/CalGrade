@@ -16,6 +16,26 @@ def update_grade():
         grade_var.get()
     )
 
+    values = table.item(selected_item[0], "values")
+    selected_code = values[0]
+
+    print(selected_code)
+
+    for subject in subjects:
+        if subject["code"] == selected_code:
+            subject["grade"] = grade_var.get()
+            break
+    
+    print("กำลังบันทึกเกรด")
+
+    with open("course2.json", "w", encoding="utf-8") as file:
+        json.dump(
+            subjects,
+            file,
+            ensure_ascii=False,
+            indent=4
+    )
+
 def on_select(event):
     grade_combo.set("กรุณาเลือกเกรด")
     selected_item = table.selection()
@@ -59,12 +79,12 @@ table.heading("name", text="ชื่อวิชา")
 table.heading("credit", text="หน่วยกิต")
 table.heading("grade", text="เกรด")
 
-table.column("code", width=120)
-table.column("name", width=450)
-table.column("credit", width=100)
-table.column("grade", width=100)
+table.column("code", width=180, anchor="center")
+table.column("name", width=350)
+table.column("credit", width=100, anchor="center")
+table.column("grade", width=100, anchor="center")
 
-with open("course.json", "r", encoding="utf-8") as file:
+with open("course2.json", "r", encoding="utf-8") as file:
     subjects = json.load(file)
 
 for subject in subjects:
