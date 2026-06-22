@@ -3,20 +3,23 @@ from tkinter import ttk
 import json
 
 
+current_table = None
+
 def update_grade():
 
-    selected_item = table.selection()
+    global current_table
+    selected_item = current_table.selection()
 
     if not selected_item:
         return
 
-    table.set(
+    current_table.set(
         selected_item[0],
         "grade",
         grade_var.get()
     )
 
-    values = table.item(selected_item[0], "values")
+    values = current_table.item(selected_item[0], "values")
     selected_code = values[0]
 
     print(selected_code)
@@ -37,16 +40,23 @@ def update_grade():
     )
 
 def on_select(event):
-    grade_combo.set("กรุณาเลือกเกรด")
-    selected_item = table.selection()
+    
+
+    global current_table
+    current_table = event.widget
+    selected_item = current_table.selection()
 
     if not selected_item:
         return
 
-    values = table.item(selected_item[0], "values")
+    values = current_table.item(selected_item[0], "values")
 
     code = values[0]
     name = values[1]
+    if values[3]:
+        grade_combo.set(values[3])
+    else:
+        grade_combo.set("กรุณาเลือกเกรด")
 
     selected_subject_label.config(
         text=f"วิชาที่เลือก: {code} {name}"
@@ -56,6 +66,10 @@ def on_select(event):
 
 
 window = tk.Tk()
+
+passed_frame = ttk.Frame(window)
+center_frame = ttk.Frame(window)
+waiting_frame = ttk.Frame(window)
 
 window.title("โปรแกรมบันทึกผลการเรียน")
 window.geometry("800x600")
@@ -68,37 +82,70 @@ title_label = tk.Label(
 
 title_label.pack(pady=20)
 
-table = ttk.Treeview(
-    window,
+table_passed = ttk.Treeview(
+    passed_frame,
+    columns=("code", "name", "credit", "grade"),
+    show="headings"
+)
+table_wait = ttk.Treeview(
+    waiting_frame,
     columns=("code", "name", "credit", "grade"),
     show="headings"
 )
 
-table.heading("code", text="รหัสวิชา")
-table.heading("name", text="ชื่อวิชา")
-table.heading("credit", text="หน่วยกิต")
-table.heading("grade", text="เกรด")
+table_passed.heading("code", text="รหัสวิชา")
+table_passed.heading("name", text="ชื่อวิชา")
+table_passed.heading("credit", text="หน่วยกิต")
+table_passed.heading("grade", text="เกรด")
 
-table.column("code", width=180, anchor="center")
-table.column("name", width=350)
-table.column("credit", width=100, anchor="center")
-table.column("grade", width=100, anchor="center")
+table_passed.column("code", width=180, anchor="center")
+table_passed.column("name", width=350)
+table_passed.column("credit", width=100, anchor="center")
+table_passed.column("grade", width=100, anchor="center")
+
+table_wait.heading("code", text="รหัสวิชา")
+table_wait.heading("name", text="ชื่อวิชา")
+table_wait.heading("credit", text="หน่วยกิต")
+table_wait.heading("grade", text="เกรด")
+
+table_wait.column("code", width=180, anchor="center")
+table_wait.column("name", width=350)
+table_wait.column("credit", width=100, anchor="center")
+table_wait.column("grade", width=100, anchor="center")
 
 with open("course2.json", "r", encoding="utf-8") as file:
     subjects = json.load(file)
 
+passed_count = 0
+wait_count = 0
+
 for subject in subjects:
-    table.insert("", tk.END, values=(
-            subject["code"],
-            subject["name"],
-            subject["credit"],
-            subject["grade"]
-        ))
+    values = (
+        subject["code"],
+        subject["name"],
+        subject["credit"],
+        subject["grade"]
+    )
+    if subject["grade"]:
+        table_passed.insert(
+            "",
+            tk.END,
+            values=values
+        )
+        passed_count+=1
+
+    else:
+        table_wait.insert(
+            "",
+            tk.END,
+            values=values
+        )
+        wait_count+=1
 
 grade_var = tk.StringVar()
 
 grade_combo = ttk.Combobox(
-    window,
+    center_frame,
     textvariable=grade_var,
     values=["", "A", "B+", "B", "C+", "C", "D+", "D", "F"],
     state="readonly"
@@ -107,32 +154,49 @@ grade_combo = ttk.Combobox(
 grade_combo.set("กรุณาคลิกเลือกวิชา")
 
 update_button = tk.Button(
-    window,
+    center_frame,
     text="อัปเดตเกรด"
 )
 
-update_button = tk.Button(
-    window,
-    text="อัปเดตเกรด",
-    command=update_grade
-)
-
 selected_subject_label = tk.Label(
-    window,
+    center_frame,
     text="ยังไม่ได้เลือกวิชา",
-    font=("Arial", 11)
+    font=("Kanit", 11)
 )
 
-table.bind("<<TreeviewSelect>>", on_select)
+table_passed.config(
+    height=max(3, passed_count)
+)
 
+table_wait.config(
+    height=max(3, wait_count)
+)
+
+table_passed.bind("<<TreeviewSelect>>", on_select)
+table_wait.bind("<<TreeviewSelect>>", on_select)
 
 grade_combo.pack(pady=5)
 grade_combo.config(state="disabled") 
 
+passes_label=tk.Label(passed_frame, text="วิชาที่ผ่านแล้ว")
+passed_frame.pack(fill="both", expand=True)
+passes_label.pack(pady=5)
+table_passed.pack(
+    fill="both",
+    padx=10,
+    pady=10
+)
+
+center_frame.pack(fill="x")
+waiting_frame.pack(fill="both", expand=True, padx=20, pady=20)
+table_wait.pack(
+    fill="both",
+    padx=10,
+    pady=10
+)
 selected_subject_label.pack()
 
 update_button.pack(pady=5)
 
-table.pack(fill="both", expand=True, padx=20, pady=20)
 
 window.mainloop()
