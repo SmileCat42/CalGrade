@@ -114,28 +114,24 @@ def update_gpa():
 
     gpa = total_points / total_credits
     if gpa >= 3.5:
+        info_frame.config(bg="#f7edc4")
         gpa_label.config(
-            text=f"GPA: {gpa:.2f}   👑 เกียตินิยมอันดับ 1",
-            fg="gold",
-            bg="#3F3D3D"
+            text=f" GPA: {gpa:.2f}",
         )
     elif gpa >= 3.25:
+        info_frame.config(bg="#c8f2f5")
         gpa_label.config(
-            text=f"GPA: {gpa:.2f}   🥈 เกียตินิยมอันดับ 2",
-            fg="blue",
-            bg="#CAC8C8"
+            text=f" GPA: {gpa:.2f}",
         )
     elif gpa <= 2.0:
+        info_frame.config(bg="#f7c4c4")
         gpa_label.config(
-            text=f"GPA: {gpa:.2f}   ขยันมากกว่านี้💪",
-            fg="red",
-            bg="#F0F0F0"
+            text=f" GPA: {gpa:.2f}",
         )
     else:
+        info_frame.config(bg="#ffffffd3")
         gpa_label.config(
-            text=f"GPA: {gpa:.2f}",
-            fg="black",
-            bg="#F0F0F0"
+            text=f" GPA: {gpa:.2f}",
         )
 
 window = tk.Tk()
@@ -146,13 +142,13 @@ style.theme_use("clam")
 
 style.configure(
     "Passed.Treeview",
-    background="#CBFACF",
+    background="#DFEBFA",
     fieldbackground="#E8F5E9"
 )
 
 style.configure(
     "Wait.Treeview",
-    background="#F7BFB7",
+    background="#FDEBE8",
     fieldbackground="#FFF8E1"
 )
 style.configure(
@@ -161,27 +157,55 @@ style.configure(
 )
 style.configure(
     "Passed.TLabelframe.Label",
-    foreground="green",
+    foreground="#435570",
     font=("Kanit", 11, "bold")
 )
 style.configure(
     "Waiting.TLabelframe.Label",
-    foreground="#e45656",
+    foreground="#d4c9c96f",
     font=("Kanit", 11, "bold")
 )
 
 passed_frame = ttk.LabelFrame(
     window,
-    text="วิชาที่ผ่านแล้ว",
+    text="      วิชาที่ผ่านแล้ว",
     style="Passed.TLabelframe"
 )
 
 waiting_frame = ttk.LabelFrame(
     window,
-    text="วิชาที่ยังไม่ผ่าน",
+    text="      วิชาที่ยังไม่ผ่าน",
     style="Waiting.TLabelframe"
 )
-center_frame = ttk.Frame(window)
+center_frame = tk.Frame(window,padx=20,pady=1)
+info_frame = tk.Frame(
+    center_frame,
+    bg="white",
+    bd=3,
+    relief="ridge",
+    padx=15,
+    pady=15
+)
+control_frame = tk.Frame(
+    center_frame,
+    bg="white",
+    bd=1,
+    relief="groove")
+
+info_frame.pack(
+    side="left",
+    fill="x",
+    expand=True,
+    padx=10,
+    pady=10
+)
+
+control_frame.pack(
+    side="right",
+    expand=True,
+    fill="x",
+    padx=20
+)
 
 window.title("โปรแกรมบันทึกผลการเรียน")
 window.geometry("800x800")
@@ -259,7 +283,7 @@ for subject in subjects:
 grade_var = tk.StringVar()
 
 grade_combo = ttk.Combobox(
-    center_frame,
+    control_frame,
     textvariable=grade_var,
     values=["", "A", "B+", "B", "C+", "C", "D+", "D", "F"],
     state="readonly"
@@ -268,7 +292,7 @@ grade_combo = ttk.Combobox(
 grade_combo.set("กรุณาคลิกเลือกวิชา")
 
 update_button = tk.Button(
-    center_frame,
+    control_frame,
     text="💾 บันทึกเกรด",
     font=("Kanit", 11, "bold"),
     fg="white",
@@ -278,7 +302,7 @@ update_button = tk.Button(
 )
 
 selected_subject_label = tk.Label(
-    center_frame,
+    control_frame,
     text="ยังไม่ได้เลือกวิชา",
     font=("Kanit", 11)
 )
@@ -310,12 +334,24 @@ table_wait.configure(
 )
 
 gpa_label = tk.Label(
-        center_frame,
-        text="GPA: 0.00",
-        font=("Kanit", 12),
-        bg="#F0F0F0"
+        info_frame,
+        text="  GPA: 0.00",
+        font=("Kanit", 14),
+        bg=info_frame["bg"]
     )
+credit_label = tk.Label(
+    info_frame,
+    text="  หน่วยกิตที่ผ่าน: 0",
+    font=("Kanit", 11),
+    bg=info_frame["bg"]
+)
 
+remain_label = tk.Label(
+    info_frame,
+    text="  หน่วยกิตคงเหลือ: 127",
+    font=("Kanit", 11),
+    bg=info_frame["bg"]
+)
 
 table_passed.bind("<<TreeviewSelect>>", on_select)
 table_wait.bind("<<TreeviewSelect>>", on_select)
@@ -351,7 +387,9 @@ selected_subject_label.pack(pady=5)
 
 update_button.pack(pady=20)
 
-gpa_label.pack(pady=5)
+gpa_label.pack(anchor="w")
+credit_label.pack(anchor="w")
+remain_label.pack(anchor="w")
 update_gpa()
 
 window.mainloop()
