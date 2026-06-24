@@ -226,5 +226,35 @@
         "name": "รูปแบบและการออกแบบซอฟต์แวร์",
         "credit": 3,
         "grade": ""
+    },
+    {
+        "code": "COSXXXX",
+        "name": "วิชาเลือก 1",
+        "credit": 3,
+        "grade": ""
+    },
+    {
+        "code": "COSXXXX",
+        "name": "วิชาเลือก 2",
+        "credit": 3,
+        "grade": ""
+    },
+    {
+        "code": "COSXXXX",
+        "name": "วิชาเลือก 3",
+        "credit": 3,
+        "grade": ""
+    },
+    {
+        "code": "XXXXXXX",
+        "name": "วิชาเสรี 1",
+        "credit": 3,
+        "grade": ""
+    },
+    {
+        "code": "XXXXXXX",
+        "name": "วิชาเสรี 2",
+        "credit": 3,
+        "grade": ""
     }
 ]

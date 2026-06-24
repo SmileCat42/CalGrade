@@ -101,6 +101,7 @@ def update_gpa():
     }
     total_points = 0
     total_credits = 0
+    remain = 0 
 
     for subject in subjects:
         grade = subject["grade"]
@@ -111,27 +112,65 @@ def update_gpa():
             * credit
             )
             total_credits += credit
+        else:
+            credit = subject["credit"]
+            remain += credit
 
+    credit_label.config(text=f" ผ่านแล้วทั้งหมด: {total_credits} / 127 หน่วยกิต")
+    remain_label.config(text=f" คงเหลือ: {remain}  หน่วยกิต")
     gpa = total_points / total_credits
     if gpa >= 3.5:
         info_frame.config(bg="#f7edc4")
+        credit_label.config(bg="#f7edc4")
+        remain_label.config(bg="#f7edc4")
         gpa_label.config(
             text=f" GPA: {gpa:.2f}",
+            bg="#f7edc4"
         )
+        honor_label.config(
+            text="  ✮ เกียตินิยมอันดับ 1",
+            fg="#f3a806",
+            bg="#f7edc4"
+        )
+
     elif gpa >= 3.25:
         info_frame.config(bg="#c8f2f5")
+        credit_label.config(bg="#c8f2f5")
+        remain_label.config(bg="#c8f2f5")
         gpa_label.config(
             text=f" GPA: {gpa:.2f}",
+            bg="#c8f2f5"
+        )
+        honor_label.config(
+            text="  ✮ เกียตินิยมอันดับ 2",
+            fg="#17bdd3",
+            bg="#c8f2f5"
         )
     elif gpa <= 2.0:
         info_frame.config(bg="#f7c4c4")
+        credit_label.config(bg="#f7c4c4")
+        remain_label.config(bg="#f7c4c4")
         gpa_label.config(
             text=f" GPA: {gpa:.2f}",
+            bg="#f7c4c4"
+        )
+        honor_label.config(
+            text="  ขอจบไม่ได้ ขยันเพิ่มอีกก",
+            fg="#e73a3a",
+            bg="#f7c4c4"
         )
     else:
-        info_frame.config(bg="#ffffffd3")
+        info_frame.config(bg="silver")
+        credit_label.config(bg="silver")
+        remain_label.config(bg="silver")
         gpa_label.config(
             text=f" GPA: {gpa:.2f}",
+            bg="silver"
+        )
+        honor_label.config(
+            text=" ",
+            fg="#cecfcf",
+            bg="silver"
         )
 
 window = tk.Tk()
@@ -188,7 +227,7 @@ info_frame = tk.Frame(
 )
 control_frame = tk.Frame(
     center_frame,
-    bg="white",
+    bg="#f5ecd0",
     bd=1,
     relief="groove")
 
@@ -210,13 +249,7 @@ control_frame.pack(
 window.title("โปรแกรมบันทึกผลการเรียน")
 window.geometry("800x800")
 
-title_label = tk.Label(
-    window,
-    text="โปรแกรมบันทึกผลการเรียน",
-    font=("Kanit", 20)
-)
 
-title_label.pack(pady=20)
 
 table_passed = ttk.Treeview(
     passed_frame,
@@ -304,7 +337,8 @@ update_button = tk.Button(
 selected_subject_label = tk.Label(
     control_frame,
     text="ยังไม่ได้เลือกวิชา",
-    font=("Kanit", 11)
+    font=("Kanit", 11),
+    bg=control_frame["bg"]
 )
 
 passed_height = min(5, max(3, passed_count))
@@ -333,6 +367,15 @@ table_wait.configure(
     yscrollcommand=wait_scroll.set
 )
 
+#++++++++++++++++++++++++++++++++++++++++++++ Label ++++++++++++++++++++++++++++++++++++++
+
+title_label = tk.Label(
+    window,
+    text="โปรแกรมบันทึกผลการเรียน",
+    font=("Kanit", 20)
+)
+title_label.pack(pady=20)
+
 gpa_label = tk.Label(
         info_frame,
         text="  GPA: 0.00",
@@ -345,18 +388,30 @@ credit_label = tk.Label(
     font=("Kanit", 11),
     bg=info_frame["bg"]
 )
-
 remain_label = tk.Label(
     info_frame,
     text="  หน่วยกิตคงเหลือ: 127",
     font=("Kanit", 11),
     bg=info_frame["bg"]
 )
+honor_label = tk.Label(
+    info_frame,
+    font=("Kanit", 11),
+    bg=info_frame["bg"]
+)
+control_label = tk.Label(
+    control_frame,
+    text="  จัดการผลการเรียน",
+    font=("Kanit", 11, "bold"),
+    fg="#473c16",
+    bg=control_frame["bg"]
+)
 
 table_passed.bind("<<TreeviewSelect>>", on_select)
 table_wait.bind("<<TreeviewSelect>>", on_select)
 
-grade_combo.pack(pady=(20,5))
+control_label.pack(pady=(10,2))
+grade_combo.pack(pady=(10,2))
 grade_combo.config(state="disabled") 
 
 passes_label=tk.Label(passed_frame, text="วิชาที่ผ่านแล้ว")
@@ -383,13 +438,14 @@ table_wait.pack(
     expand=True
 )
 
-selected_subject_label.pack(pady=5)
+selected_subject_label.pack(pady=2)
 
-update_button.pack(pady=20)
+update_button.pack(pady=10)
 
 gpa_label.pack(anchor="w")
 credit_label.pack(anchor="w")
 remain_label.pack(anchor="w")
+honor_label.pack(anchor="w")
 update_gpa()
 
 window.mainloop()
