@@ -15,13 +15,13 @@
         "code": "RAMXXXX",
         "name": "กลุ่มวิชาเลือกภาษาต่างประเทศ",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "RAMXXXX",
         "name": "กลุ่มวิชาเทคโนโลยี",
         "credit": 3,
-        "grade": ""
+        "grade": "B+"
     },
     {
         "code": "RAMXXXX",
@@ -33,13 +33,13 @@
         "code": "RAMXXXX",
         "name": "กลุ่มวิชาการคิด",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "RAMXXXX",
         "name": "กลุ่มวิชาการเป็นผู้ประกอบการ",
         "credit": 3,
-        "grade": ""
+        "grade": "B+"
     },
     {
         "code": "RAM1301",
@@ -51,7 +51,7 @@
         "code": "RAMXXXX",
         "name": "วิทย์&กฏหมาย",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "RAMXXXX",
@@ -75,7 +75,7 @@
         "code": "STA2003",
         "name": "หลักสถิติ",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS1101",
@@ -93,49 +93,49 @@
         "code": "COS1103",
         "name": "อัลกอริทึมและแนวคิดการเขียนโปรแกรม",
         "credit": 3,
-        "grade": ""
+        "grade": "B+"
     },
     {
         "code": "COS2101",
         "name": "การเขียนโปรแกรมเชิงกระบวนคำสั่ง",
         "credit": 3,
-        "grade": ""
+        "grade": "C+"
     },
     {
         "code": "COS2102",
         "name": "การเขียนโปรแกรมเชิงอ็อบเจ็กต์",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS2103",
         "name": "โครงสร้างข้อมูลและอัลกอริทึม",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS2105",
         "name": "ทฤษฎีการคำนวณ",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS2107",
         "name": "ปฏิสัมพันธ์ระหว่างมนุษย์และคอมพิวเตอร์",
         "credit": 3,
-        "grade": ""
+        "grade": "B+"
     },
     {
         "code": "COS2108",
         "name": "สถาปัตยกรรมคอมพิวเตอร์",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS2204",
         "name": "การเขียนโปรแกรมบนเว็บ",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COS3101",
@@ -165,7 +165,7 @@
         "code": "COS3106",
         "name": "เครือข่ายคอมพิวเตอร์",
         "credit": 3,
-        "grade": ""
+        "grade": "D+"
     },
     {
         "code": "COS3107",
@@ -231,7 +231,7 @@
         "code": "COSXXXX",
         "name": "วิชาเลือก 1",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "COSXXXX",
@@ -249,12 +249,12 @@
         "code": "XXXXXXX",
         "name": "วิชาเสรี 1",
         "credit": 3,
-        "grade": ""
+        "grade": "A"
     },
     {
         "code": "XXXXXXX",
         "name": "วิชาเสรี 2",
         "credit": 3,
-        "grade": ""
+        "grade": "B"
     }
 ]

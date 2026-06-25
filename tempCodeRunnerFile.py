@@ -1,8 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
-import json
-
-
 current_table = None
 
 def update_grade():
@@ -24,20 +19,13 @@ def update_grade():
 
     values = current_table.item(selected_item[0], "values")
     selected_code = values[0]
-    selected_name = values[1]
-    
+
     print(selected_code)
 
     for subject in subjects:
-        if (
-        subject["code"] == selected_code
-        and
-        subject["name"] == selected_name
-        ):
+        if subject["code"] == selected_code:
             subject["grade"] = grade_var.get()
             break
-    else:
-        print("ไม่เจอวิชา", selected_code)
     
     print("กำลังบันทึกเกรด")
 
@@ -464,7 +452,5 @@ credit_label.pack(anchor="w")
 remain_label.pack(anchor="w")
 honor_label.pack(anchor="w")
 update_gpa()
-
-
 
 window.mainloop()
