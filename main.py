@@ -181,14 +181,15 @@ style.theme_use("clam")
 
 style.configure(
     "Passed.Treeview",
-    background="#DFEBFA",
-    fieldbackground="#E8F5E9"
+    background="#E3FAE5",
+    relief="flat",
+    foreground="#0D0E0D"
 )
 
 style.configure(
     "Wait.Treeview",
-    background="#FDEBE8",
-    fieldbackground="#FFF8E1"
+    background="#FDEEEE",
+    foreground="#0E0B0B"
 )
 style.configure(
     "Treeview",
@@ -201,7 +202,7 @@ style.configure(
 )
 style.configure(
     "Waiting.TLabelframe.Label",
-    foreground="#d4c9c96f",
+    foreground="#494545",
     font=("Kanit", 11, "bold")
 )
 
@@ -227,7 +228,7 @@ info_frame = tk.Frame(
 )
 control_frame = tk.Frame(
     center_frame,
-    bg="#f5ecd0",
+    bg="#EFEFEF",
     bd=1,
     relief="groove")
 
@@ -330,7 +331,7 @@ update_button = tk.Button(
     font=("Kanit", 11, "bold"),
     fg="white",
     width=15,
-    background="#f59e1b",
+    background="#E9A825",
     command=update_grade
 )
 
@@ -372,7 +373,8 @@ table_wait.configure(
 title_label = tk.Label(
     window,
     text="โปรแกรมบันทึกผลการเรียน",
-    font=("Kanit", 20, "bold")
+    font=("Kanit", 20, "bold"),
+    fg="#435570"
 )
 title_label.pack(pady=(20,0))
 title2_label = tk.Label(
