@@ -2,7 +2,47 @@ import tkinter as tk
 from tkinter import ttk
 import json
 
+splash = tk.Tk()
 
+splash.overrideredirect(True)      # ไม่มีขอบหน้าต่าง
+splash.geometry("450x250")
+
+label1 = tk.Label(
+    splash,
+    text="GPA TRACKER\n\n Developer\nกฤตยา ตันติชัยยกุล\n\nRamkamhaeng University",
+    bg="#FFF8F0",
+    fg="#435570",
+    font=("Kanit",26,"bold")
+)
+splash.configure(bg="#FFF8F0")
+width = 500
+height = 280
+
+x = (splash.winfo_screenwidth() // 2) - (width // 2)
+y = (splash.winfo_screenheight() // 2) - (height // 2)
+
+splash.geometry(f"{width}x{height}+{x}+{y}")
+
+label1.pack(expand=True)
+
+def start_program():
+    splash.destroy()
+
+    main = tk.Tk()
+    main.title("GPA Tracker")
+    main.geometry("900x700")
+
+    tk.Label(
+        main,
+        text="โปรแกรมหลัก",
+        font=("Kanit",20)
+    ).pack(pady=50)
+
+    main.mainloop()
+
+splash.after(2000, start_program)
+
+splash.mainloop()
 current_table = None
 
 def update_grade():
@@ -41,7 +81,7 @@ def update_grade():
     
     print("กำลังบันทึกเกรด")
 
-    with open("course2.json", "w", encoding="utf-8") as file:
+    with open("data/course.json", "w", encoding="utf-8") as file:
         json.dump(
             subjects,
             file,
@@ -125,7 +165,24 @@ def update_gpa():
 
     credit_label.config(text=f" ผ่านแล้วทั้งหมด: {total_credits} / 127 หน่วยกิต")
     remain_label.config(text=f" คงเหลือ: {remain}  หน่วยกิต")
-    gpa = total_points / total_credits
+
+    if total_credits == 0:
+        gpa = 0
+        gpa_label.config(
+            bg="#dbf5e2"
+        )
+        info_frame.config(bg="#dbf5e2")
+        credit_label.config(bg="#dbf5e2")
+        remain_label.config(bg="#dbf5e2")
+        honor_label.config(
+            text=" เริ่มอัพเดทเกรดจากตารางด้านล่างได้เลย",
+            fg="#2e3030",
+            bg="#dbf5e2"
+        )
+        return
+    else:
+        gpa = total_points / total_credits
+
     if gpa >= 3.5:
         info_frame.config(bg="#f7edc4")
         credit_label.config(bg="#f7edc4")
@@ -257,8 +314,6 @@ control_frame.pack(
 window.title("โปรแกรมบันทึกผลการเรียน")
 window.geometry("800x800")
 
-
-
 table_passed = ttk.Treeview(
     passed_frame,
     columns=("code", "name", "credit", "grade"),
@@ -292,7 +347,7 @@ table_wait.column("name", width=350)
 table_wait.column("credit", width=100, anchor="center")
 table_wait.column("grade", width=100, anchor="center")
 
-with open("course2.json", "r", encoding="utf-8") as file:
+with open("data/course.json", "r", encoding="utf-8") as file:
     subjects = json.load(file)
 
 passed_count = 0
