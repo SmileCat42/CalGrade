@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import json
 
+#++++++++++++++++++++++++++++++++++++++++++++++ splash +++++++++++++++++++++++++++++++++++++++++++++
+
 splash = tk.Tk()
 
 splash.overrideredirect(True)      # ไม่มีขอบหน้าต่าง
@@ -9,14 +11,42 @@ splash.geometry("450x250")
 
 label1 = tk.Label(
     splash,
-    text="GPA TRACKER\n\n Developer\nกฤตยา ตันติชัยยกุล\n\nRamkamhaeng University",
+    text="GPA TRACKER",
     bg="#FFF8F0",
     fg="#435570",
     font=("Kanit",26,"bold")
 )
+label2 = tk.Label(
+    splash,
+    text=" Student Grade Manager\nVersion1.0",
+    bg="#FFF8F0",
+    fg="#435570",
+    font=("Kanit",14)
+)
+label3 = tk.Label(
+    splash,
+    text="Developer\nกฤตยา ตันติชัยยกุล",
+    bg="#FFF8F0",
+    fg="#435570",
+    font=("Kanit",14)
+)
+label4 = tk.Label(
+    splash,
+    text="Ramkamhaeng University\n\nLoading...",
+    bg="#FFF8F0",
+    fg="#435570",
+    font=("Kanit",14)
+)
+progress = ttk.Progressbar(
+    splash,
+    mode="indeterminate",
+    length=350
+)
+
+progress.start(10)
 splash.configure(bg="#FFF8F0")
-width = 500
-height = 280
+width = 600
+height = 400
 
 x = (splash.winfo_screenwidth() // 2) - (width // 2)
 y = (splash.winfo_screenheight() // 2) - (height // 2)
@@ -24,23 +54,17 @@ y = (splash.winfo_screenheight() // 2) - (height // 2)
 splash.geometry(f"{width}x{height}+{x}+{y}")
 
 label1.pack(expand=True)
+label2.pack(expand=True)
+label3.pack(expand=True)
+label4.pack(expand=True)
+progress.pack(pady=(5,10))
 
-def start_program():
+#+++++++++++++++++++++++++++++++++++++++++++ Function ++++++++++++++++++++++++++++++++++++++++++++++
+
+def start():
     splash.destroy()
 
-    main = tk.Tk()
-    main.title("GPA Tracker")
-    main.geometry("900x700")
-
-    tk.Label(
-        main,
-        text="โปรแกรมหลัก",
-        font=("Kanit",20)
-    ).pack(pady=50)
-
-    main.mainloop()
-
-splash.after(2000, start_program)
+splash.after(3000, start)
 
 splash.mainloop()
 current_table = None
@@ -237,6 +261,9 @@ def update_gpa():
             bg="silver"
         )
 
+#+++++++++++++++++++++++++++++++++++++++++++ id +++++++++++++++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++++++++++++++++++++++++++ Style ++++++++++++++++++++++++++++++++++++++++++++
+
 window = tk.Tk()
 
 style = ttk.Style()
@@ -270,6 +297,14 @@ style.configure(
     font=("Kanit", 11, "bold")
 )
 
+#++++++++++++++++++++++++++++++++++++++++++++++++ Frame ++++++++++++++++++++++++++++++++++++++++++
+
+top_menu = tk.Frame(
+    window,
+    bg="#F5F5F5",
+    height=40
+)
+top_menu.pack(fill="x")
 passed_frame = ttk.LabelFrame(
     window,
     text="      วิชาที่ผ่านแล้ว",
@@ -313,6 +348,33 @@ control_frame.pack(
 
 window.title("โปรแกรมบันทึกผลการเรียน")
 window.geometry("800x800")
+
+#+++++++++++++++++++++++++++++++++++++++++++++ Menu bar ++++++++++++++++++++++++++++++++++++++++++
+
+guide_btn = tk.Button(
+    top_menu,
+    text="💡 คู่มือการใช้งาน",
+    relief="flat",
+    bg="#F5F5F5",
+    activebackground="#E8E8E8",
+    cursor="hand2",
+    command=show_guide
+)
+
+guide_btn.pack(side="left", padx=(15,5), pady=5)
+
+about_btn = tk.Button(
+    top_menu,
+    text="ℹ️ About",
+    relief="flat",
+    bg="#F5F5F5",
+    activebackground="#E8E8E8",
+    cursor="hand2",
+    command=show_about
+)
+
+about_btn.pack(side="left", padx=5, pady=5)
+#+++++++++++++++++++++++++++++++++++++++++++++++++ Table +++++++++++++++++++++++++++++++++++
 
 table_passed = ttk.Treeview(
     passed_frame,
@@ -439,14 +501,6 @@ title_label = tk.Label(
     fg="#435570"
 )
 title_label.pack(pady=(20,0))
-title2_label = tk.Label(
-    window,
-    text="Comsci Ramkamhaeng University\n" \
-    "กฤตยา ตันติชัยยกุล",
-    font=("Kanit", 11),
-    fg="#6E6D6D"
-)
-title2_label.pack(pady=(2,2))
 
 gpa_label = tk.Label(
         info_frame,
